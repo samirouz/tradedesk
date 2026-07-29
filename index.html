@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d10" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TradeDesk" />
+  
+  <title>TradeDesk — MGC Risk Calculator</title>
+  <style>
+    :root{
+      --bg:#090b0e; --panel:#12161b; --panel2:#171c22; --line:#28313b;
+      --text:#f4f7fb; --muted:#98a2ad; --gold:#f2c14e; --green:#31d07c;
+      --orange:#ffad42; --red:#ff5d68; --blue:#58a6ff;
+    }
+    *{box-sizing:border-box}
+    html{background:var(--bg)}
+    body{
+      margin:0; color:var(--text); background:
+      radial-gradient(circle at 20% -10%,rgba(242,193,78,.16),transparent 35%),
+      radial-gradient(circle at 100% 0,rgba(88,166,255,.10),transparent 32%),
+      var(--bg);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+      min-height:100vh;
+    }
+    .app{max-width:560px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(30px + env(safe-area-inset-bottom))}
+    .brand{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .brand h1{font-size:25px;margin:0;letter-spacing:-.7px}
+    .brand h1 span{color:var(--gold)}
+    .badge{font-size:11px;font-weight:800;padding:7px 9px;border:1px solid rgba(242,193,78,.35);
+      background:rgba(242,193,78,.09);color:var(--gold);border-radius:999px}
+    .hero{padding:17px;border-radius:20px;border:1px solid rgba(242,193,78,.22);
+      background:linear-gradient(145deg,rgba(242,193,78,.10),rgba(18,22,27,.96) 48%)}
+    .hero .eyebrow{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:.9px}
+    .hero h2{font-size:24px;line-height:1.05;margin:7px 0 8px}
+    .hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+    .card{background:rgba(18,22,27,.94);border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:13px;
+      box-shadow:0 12px 35px rgba(0,0,0,.18)}
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+    .section-title h3{font-size:15px;margin:0}
+    .section-title small{color:var(--muted);font-size:11px}
+    .seg{display:grid;grid-template-columns:1fr 1fr;background:#0d1116;border:1px solid var(--line);
+      border-radius:14px;padding:4px;margin-bottom:13px}
+    .seg button{border:0;background:transparent;color:var(--muted);padding:11px;border-radius:10px;font-weight:800;font-size:14px}
+    .seg button.active{background:var(--panel2);color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    .field.full{grid-column:1/-1}
+    label{display:block;color:var(--muted);font-size:11px;font-weight:800;margin:0 0 6px 2px;text-transform:uppercase;letter-spacing:.45px}
+    .input-wrap{position:relative}
+    input{
+      width:100%;border:1px solid var(--line);background:#0d1116;color:var(--text);border-radius:13px;
+      padding:14px 43px 14px 13px;font-size:17px;font-weight:750;outline:none;
+    }
+    input:focus{border-color:rgba(242,193,78,.7);box-shadow:0 0 0 3px rgba(242,193,78,.10)}
+    .suffix{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;font-weight:800}
+    .primary{
+      width:100%;border:0;border-radius:15px;margin-top:14px;padding:15px 16px;font-size:16px;font-weight:900;
+      color:#111;background:linear-gradient(135deg,#ffe08a,var(--gold));box-shadow:0 10px 25px rgba(242,193,78,.20);
+    }
+    .primary:active{transform:scale(.99)}
+    .error{display:none;margin-top:11px;color:#ffd7da;background:rgba(255,93,104,.11);border:1px solid rgba(255,93,104,.3);padding:11px;border-radius:12px;font-size:13px}
+    .results{display:none}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+    .metric{background:#0d1116;border:1px solid var(--line);border-radius:15px;padding:12px 9px;text-align:center}
+    .metric .v{font-size:20px;font-weight:900;letter-spacing:-.4px}
+    .metric .k{font-size:10px;color:var(--muted);font-weight:800;margin-top:4px;text-transform:uppercase}
+    .recommend{display:flex;align-items:center;justify-content:space-between;margin-top:11px;padding:13px;border-radius:15px;border:1px solid rgba(49,208,124,.35);background:rgba(49,208,124,.09)}
+    .recommend .main{font-size:20px;font-weight:950;color:var(--green)}
+    .recommend .sub{font-size:11px;color:var(--muted);margin-top:3px}
+    .status{font-size:11px;font-weight:900;padding:7px 9px;border-radius:999px}
+    .status.green{color:var(--green);background:rgba(49,208,124,.12)}
+    .status.orange{color:var(--orange);background:rgba(255,173,66,.12)}
+    .status.red{color:var(--red);background:rgba(255,93,104,.12)}
+    table{width:100%;border-collapse:separate;border-spacing:0 7px}
+    th{font-size:10px;color:var(--muted);text-transform:uppercase;text-align:left;padding:0 10px}
+    td{background:#0d1116;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 10px;font-size:13px;font-weight:800}
+    td:first-child{border-left:1px solid var(--line);border-radius:11px 0 0 11px}
+    td:last-child{border-right:1px solid var(--line);border-radius:0 11px 11px 0;text-align:right}
+    tr.zone-green td{border-color:rgba(49,208,124,.32);background:rgba(49,208,124,.065)}
+    tr.zone-orange td{border-color:rgba(255,173,66,.30);background:rgba(255,173,66,.055)}
+    tr.zone-red td{border-color:rgba(255,93,104,.25);background:rgba(255,93,104,.045)}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+    .dot.g{background:var(--green)} .dot.o{background:var(--orange)} .dot.r{background:var(--red)}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+    .secondary{border:1px solid var(--line);background:#0d1116;color:var(--text);padding:12px;border-radius:13px;font-weight:800}
+    .formula{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+    .formula strong{color:var(--gold)}
+    .foot{color:#66717d;text-align:center;font-size:10px;line-height:1.45;margin-top:17px}
+    @media(max-width:360px){.app{padding-left:12px;padding-right:12px}.hero h2{font-size:22px}.metric .v{font-size:17px}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <div class="brand">
+    <h1>Trade<span>Desk</span></h1>
+    <div class="badge">MGC · V1</div>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">RISK CALCULATOR</div>
+    <h2>Calcule ton risque avant d’entrer.</h2>
+    <p>Optimisé pour le Micro Gold Futures (MGC) et l’utilisation sur iPhone.</p>
+  </section>
+
+  <section class="card">
+    <div class="section-title"><h3>Paramètres du trade</h3><small>MGC uniquement</small></div>
+
+    <div class="seg">
+      <button id="longBtn" class="active" type="button">Achat / Long</button>
+      <button id="shortBtn" type="button">Vente / Short</button>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label for="entry">Prix d’entrée</label>
+        <div class="input-wrap"><input id="entry" inputmode="decimal" placeholder="4084,0"><span class="suffix">USD</span></div>
+      </div>
+      <div class="field">
+        <label for="stop">Stop Loss</label>
+        <div class="input-wrap"><input id="stop" inputmode="decimal" placeholder="4073,0"><span class="suffix">USD</span></div>
+      </div>
+      <div class="field">
+        <label for="tp">Take Profit</label>
+        <div class="input-wrap"><input id="tp" inputmode="decimal" placeholder="4106,0"><span class="suffix">USD</span></div>
+      </div>
+      <div class="field">
+        <label for="riskMax">Risque maximum</label>
+        <div class="input-wrap"><input id="riskMax" inputmode="decimal" value="150"><span class="suffix">$</span></div>
+      </div>
+    </div>
+
+    <button class="primary" id="calcBtn">CALCULER MON RISQUE</button>
+    <div class="error" id="error"></div>
+  </section>
+
+  <section class="card results" id="results">
+    <div class="section-title"><h3>Résultat</h3><small id="directionText"></small></div>
+    <div class="metrics">
+      <div class="metric"><div class="v" id="points">—</div><div class="k">Points SL</div></div>
+      <div class="metric"><div class="v" id="ticks">—</div><div class="k">Ticks SL</div></div>
+      <div class="metric"><div class="v" id="riskOne">—</div><div class="k">1 micro</div></div>
+    </div>
+
+    <div class="recommend">
+      <div>
+        <div class="main" id="recommended">—</div>
+        <div class="sub" id="recommendedRisk">Taille maximale selon ton risque</div>
+      </div>
+      <div class="status green" id="status">CONFORME</div>
+    </div>
+
+    <div class="metrics" style="margin-top:9px">
+      <div class="metric"><div class="v" id="tpTicks">—</div><div class="k">Ticks TP</div></div>
+      <div class="metric"><div class="v" id="gain">—</div><div class="k">Gain potentiel</div></div>
+      <div class="metric"><div class="v" id="rr">—</div><div class="k">Ratio R:R</div></div>
+    </div>
+
+    <div class="formula"><strong>Formule MGC :</strong> ticks × micros = risque en dollars</div>
+  </section>
+
+  <section class="card results" id="tableCard">
+    <div class="section-title"><h3>Tableau instantané</h3><small>1 à 10 micros</small></div>
+    <table>
+      <thead><tr><th>Contrats</th><th>Risque</th><th>Zone</th></tr></thead>
+      <tbody id="riskTable"></tbody>
+    </table>
+    <div class="actions">
+      <button class="secondary" id="copyBtn">Copier le résultat</button>
+      <button class="secondary" id="resetBtn">Réinitialiser</button>
+    </div>
+  </section>
+
+  <p class="foot">
+    MGC : tick minimum 0,10 point · 1 tick = 1 $ par micro · 1 point = 10 $ par micro.<br>
+    Calcul hors commissions et glissement éventuel.
+  </p>
+</main>
+
+<script>
+  let direction = "long";
+  const $ = id => document.getElementById(id);
+  const longBtn=$("longBtn"), shortBtn=$("shortBtn");
+
+  function parseNum(v){
+    if(!v) return NaN;
+    return Number(String(v).replace(/\s/g,"").replace(",","."));
+  }
+  function money(v){
+    return new Intl.NumberFormat("fr-FR",{style:"currency",currency:"USD",maximumFractionDigits:2}).format(v);
+  }
+  function num(v,d=1){
+    return new Intl.NumberFormat("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(v);
+  }
+  function setDirection(d){
+    direction=d;
+    longBtn.classList.toggle("active",d==="long");
+    shortBtn.classList.toggle("active",d==="short");
+    $("stop").placeholder=d==="long"?"4073,0":"4095,0";
+    $("tp").placeholder=d==="long"?"4106,0":"4055,0";
+  }
+  longBtn.onclick=()=>setDirection("long");
+  shortBtn.onclick=()=>setDirection("short");
+
+  function showError(msg){
+    $("error").textContent=msg;$("error").style.display="block";
+    $("results").style.display="none";$("tableCard").style.display="none";
+  }
+
+  function calculate(){
+    const entry=parseNum($("entry").value);
+    const stop=parseNum($("stop").value);
+    const tp=parseNum($("tp").value);
+    const riskMax=parseNum($("riskMax").value);
+
+    if(![entry,stop,riskMax].every(Number.isFinite) || entry<=0 || stop<=0 || riskMax<=0)
+      return showError("Entre un prix d’entrée, un stop et un risque maximum valides.");
+
+    if(direction==="long" && stop>=entry) return showError("Pour un achat, le stop doit être sous le prix d’entrée.");
+    if(direction==="short" && stop<=entry) return showError("Pour une vente, le stop doit être au-dessus du prix d’entrée.");
+    if(Number.isFinite(tp)){
+      if(direction==="long" && tp<=entry) return showError("Pour un achat, le TP doit être au-dessus de l’entrée.");
+      if(direction==="short" && tp>=entry) return showError("Pour une vente, le TP doit être sous l’entrée.");
+    }
+
+    $("error").style.display="none";
+    const stopPoints=Math.abs(entry-stop);
+    const stopTicks=Math.round((stopPoints/0.1)*100)/100;
+    const riskPerMicro=stopTicks*1;
+    const maxMicros=Math.floor((riskMax+1e-9)/riskPerMicro);
+    const actualRisk=maxMicros*riskPerMicro;
+
+    let tpTicks=0, gain=0, rr=0;
+    if(Number.isFinite(tp)){
+      tpTicks=Math.abs(tp-entry)/0.1;
+      gain=tpTicks*Math.max(maxMicros,0);
+      rr=stopTicks>0 ? tpTicks/stopTicks : 0;
+    }
+
+    $("points").textContent=num(stopPoints,1);
+    $("ticks").textContent=num(stopTicks,0);
+    $("riskOne").textContent=money(riskPerMicro);
+    $("directionText").textContent=direction==="long"?"ACHAT":"VENTE";
+
+    const status=$("status");
+    if(maxMicros<1){
+      $("recommended").textContent="0 micro";
+      $("recommendedRisk").textContent="Ton stop est trop large pour ce risque maximum";
+      status.textContent="TROP LARGE"; status.className="status red";
+    } else {
+      $("recommended").textContent=maxMicros+" micro"+(maxMicros>1?"s":"");
+      $("recommendedRisk").textContent="Risque réel : "+money(actualRisk)+" / max "+money(riskMax);
+      const pct=actualRisk/riskMax;
+      if(pct<=1){
+        status.textContent="CONFORME";status.className="status green";
+      } else {
+        status.textContent="DÉPASSEMENT";status.className="status red";
+      }
+    }
+
+    $("tpTicks").textContent=Number.isFinite(tp)?num(tpTicks,0):"—";
+    $("gain").textContent=Number.isFinite(tp)&&maxMicros>0?money(gain):"—";
+    $("rr").textContent=Number.isFinite(tp)?num(rr,2):"—";
+
+    const tbody=$("riskTable");tbody.innerHTML="";
+    for(let i=1;i<=10;i++){
+      const r=riskPerMicro*i;
+      let zone, cls, dot;
+      if(r<=riskMax){zone="Conforme";cls="zone-green";dot="g";}
+      else if(r<=riskMax*1.5){zone="Prudence";cls="zone-orange";dot="o";}
+      else {zone="À éviter";cls="zone-red";dot="r";}
+      const tr=document.createElement("tr");tr.className=cls;
+      tr.innerHTML=`<td>${i} micro${i>1?"s":""}</td><td>${money(r)}</td><td><span class="dot ${dot}"></span>${zone}</td>`;
+      tbody.appendChild(tr);
+    }
+
+    $("results").style.display="block";$("tableCard").style.display="block";
+    localStorage.setItem("tradedesk_inputs",JSON.stringify({entry,stop,tp:Number.isFinite(tp)?tp:"",riskMax,direction}));
+    setTimeout(()=>$("results").scrollIntoView({behavior:"smooth",block:"start"}),80);
+  }
+
+  $("calcBtn").onclick=calculate;
+  $("resetBtn").onclick=()=>{
+    ["entry","stop","tp"].forEach(id=>$(id).value="");
+    $("riskMax").value="150";setDirection("long");
+    $("results").style.display="none";$("tableCard").style.display="none";$("error").style.display="none";
+    localStorage.removeItem("tradedesk_inputs");scrollTo({top:0,behavior:"smooth"});
+  };
+
+  $("copyBtn").onclick=async()=>{
+    const text=[
+      "TradeDesk — MGC",
+      "Direction : "+(direction==="long"?"Achat":"Vente"),
+      "Distance SL : "+$("points").textContent+" points / "+$("ticks").textContent+" ticks",
+      "Risque 1 micro : "+$("riskOne").textContent,
+      "Taille conseillée : "+$("recommended").textContent,
+      $("recommendedRisk").textContent,
+      "TP : "+$("tpTicks").textContent+" ticks",
+      "Gain potentiel : "+$("gain").textContent,
+      "R:R : "+$("rr").textContent
+    ].join("\n");
+    try{
+      await navigator.clipboard.writeText(text);
+      $("copyBtn").textContent="Copié ✓";
+      setTimeout(()=>$("copyBtn").textContent="Copier le résultat",1400);
+    }catch(e){alert(text)}
+  };
+
+  try{
+    const saved=JSON.parse(localStorage.getItem("tradedesk_inputs")||"null");
+    if(saved){
+      $("entry").value=String(saved.entry).replace(".",",");
+      $("stop").value=String(saved.stop).replace(".",",");
+      $("tp").value=String(saved.tp??"").replace(".",",");
+      $("riskMax").value=String(saved.riskMax).replace(".",",");
+      setDirection(saved.direction||"long");
+    }
+  }catch(e){}
+</script>
+</body>
+</html>
