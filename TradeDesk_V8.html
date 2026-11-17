@@ -994,6 +994,36 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
  .sidebar-backdrop{display:block!important;position:fixed!important;inset:0!important;background:rgba(2,9,12,.55)!important;backdrop-filter:blur(2px);z-index:149!important;opacity:0!important;visibility:hidden!important;transition:opacity .2s,visibility .2s}
  .sidebar-backdrop.open{opacity:1!important;visibility:visible!important}
 }
+
+/* Mobile polish — page positioning, single-purpose controls and page rhythm */
+@media(max-width:700px){
+ body.home-active .main{padding-top:8px!important}
+ body:not(.home-active) .main{padding-top:calc(62px + env(safe-area-inset-top))!important}
+ .masthead{height:38px!important;min-height:38px!important;margin:0 0 7px!important;padding:0!important;border:0!important;align-items:center!important}
+ .mast-left{gap:0!important}
+ .td-logo{width:34px!important;height:34px!important;flex:0 0 34px!important}
+ .wordmark{display:none!important}
+ .home-greeting{margin:0 1px 11px!important}
+ .home-greeting h1{font-size:clamp(29px,7.2vw,35px)!important;line-height:1.02!important;letter-spacing:-1.25px!important}
+ .global-controls{top:calc(env(safe-area-inset-top) + 8px)!important;right:12px!important;gap:7px!important}
+ .global-controls .privacy-toggle{display:none!important}
+ body.home-active .global-controls .privacy-toggle{display:grid!important}
+ .global-controls button{width:38px!important;height:38px!important;min-width:38px!important;border-radius:12px!important}
+ .global-controls .global-home[hidden]{display:none!important}
+ .global-controls .mobile-menu-toggle{display:flex!important}
+ .trade-head,.trade-page-head,.page-head{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:4px 0 17px!important}
+ .trade-head>div:first-child,.trade-page-head>div:first-child,.page-head>div:first-child{min-width:0;flex:1 1 135px}
+ .trade-head-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex:0 1 auto!important;gap:8px!important;max-width:100%!important}
+ #page-trading .trade-new{min-width:0!important;min-height:44px!important;padding:10px 13px!important;font-size:12px!important;white-space:nowrap!important}
+ #page-trading .trade-head h1{font-size:31px!important;line-height:1.05!important}
+ .page-head>.btn,.trade-page-head>.btn{flex:0 0 auto;max-width:100%;white-space:normal}
+}
+@media(min-width:701px){
+ body.home-active .main{padding-top:22px}
+ body:not(.home-active) .main{padding-top:76px}
+ .global-controls .privacy-toggle{display:none!important}
+ body.home-active .global-controls .privacy-toggle{display:grid!important}
+}
 </style>
 
 </head>
@@ -1042,7 +1072,7 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
 </section>
 
 <section class="page" id="page-trading">
- <div class="trade-head"><div><h1>Trading</h1></div><div class="trade-head-actions"><button class="privacy-toggle trade-privacy" id="tradePrivacyBtn" type="button" aria-label="Activer le mode discret" title="Mode discret"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.2 12s3.5-6.2 9.8-6.2 9.8 6.2 9.8 6.2-3.5 6.2-9.8 6.2S2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button><button class="btn primary trade-new" id="newTrade">＋ Nouveau trade</button></div></div>
+ <div class="trade-head"><div><h1>Trading</h1></div><div class="trade-head-actions"><button class="btn primary trade-new" id="newTrade">＋ Nouveau trade</button></div></div>
  <div class="trade-filters"><select id="tradePeriod" aria-label="Période"><option value="all">Tout</option><option value="7">7 jours</option><option value="30">30 jours</option><option value="month">Ce mois</option><option value="year">Cette année</option></select><select id="tradeInstrument" aria-label="Instrument"><option value="">Tous les instruments</option></select><select id="tradeSession" aria-label="Session"><option value="">Toutes les sessions</option><option>Asian</option><option>London</option><option>New York</option></select><input id="tradeSearch" placeholder="Rechercher…" aria-label="Rechercher setup ou compte"></div>
  <div class="trade-stats"><div class="trade-metric-grid compact-metrics">
  <article class="trade-metric metric-win"><div class="mini-win-ring" id="tradeWinRing"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="ring-track" cx="24" cy="24" r="20"/><circle class="ring-progress" cx="24" cy="24" r="20"/></svg><strong id="tradeWin">—</strong></div><div class="metric-copy"><span class="trade-metric-label">Winrate</span><small>Taux de réussite</small></div></article>
@@ -1201,9 +1231,10 @@ function field(label,name,html,full=false){return `<div class="field ${full?'ful
 function input(name,label,value='',type='text',opts={}){const mode=opts.inputmode||(type==='number'?'decimal':null);return field(label,name,`<input name="${name}" type="${type}" value="${esc(value)}" ${opts.required?'required':''} ${opts.step?`step="${opts.step}"`:''} ${mode?`inputmode="${mode}"`:''} placeholder="${opts.placeholder||''}">`,opts.full)}
 function select(name,label,options,value='',full=false){return field(label,name,`<select name="${name}">${options.map(x=>`<option value="${esc(x)}" ${x===value?'selected':''}>${esc(x)}</option>`).join('')}</select>`,full)}
 function textarea(name,label,value='',full=true,placeholder=''){return field(label,name,`<textarea name="${name}" placeholder="${esc(placeholder)}">${esc(value)}</textarea>`,full)}
+if('scrollRestoration' in history)history.scrollRestoration='manual';document.body.classList.add('home-active');window.addEventListener('pageshow',()=>window.scrollTo(0,0));
 function closeMobileNav(){document.body.classList.remove('nav-open');$('sidebar').classList.remove('open');$('sidebarBackdrop').classList.remove('open');$('mobileMenu').setAttribute('aria-expanded','false')}
 function toggleMobileNav(){const open=!$('sidebar').classList.contains('open');$('sidebar').classList.toggle('open',open);$('sidebarBackdrop').classList.toggle('open',open);document.body.classList.toggle('nav-open',open);$('mobileMenu').setAttribute('aria-expanded',String(open))}
-function nav(page){currentPage=page;document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('#sidebar [data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));$('masthead').style.display=page==='home'?'flex':'none';$('globalHomeBtn').hidden=page==='home';closeMobileNav();if(page==='home')renderHome();if(page==='econ')renderEconomicFull();if(page==='trading')renderTrading();if(page==='backtest')renderBacktest();if(page==='analytics')renderAnalytics();if(page==='calendar')renderCalendar();if(page==='risk')renderRisk();if(page==='settings')renderSettings()}
+function nav(page){currentPage=page;document.body.classList.toggle('home-active',page==='home');document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('#sidebar [data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));$('masthead').style.display=page==='home'?'flex':'none';$('globalHomeBtn').hidden=page==='home';closeMobileNav();window.scrollTo(0,0);if(page==='home')renderHome();if(page==='econ')renderEconomicFull();if(page==='trading')renderTrading();if(page==='backtest')renderBacktest();if(page==='analytics')renderAnalytics();if(page==='calendar')renderCalendar();if(page==='risk')renderRisk();if(page==='settings')renderSettings()}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));$('mobileMenu').onclick=toggleMobileNav;$('sidebarBackdrop').onclick=closeMobileNav;$('globalHomeBtn').onclick=()=>nav('home');$('globalHomeBtn').hidden=true;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileNav()});$('modalClose').onclick=closeModal;$('modalCancel').onclick=closeModal;$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeModal()});
 function partsAt(date,zone){const p=new Intl.DateTimeFormat('en-GB',{timeZone:zone,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date);return Object.fromEntries(p.filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
 function timeAt(zone){return new Intl.DateTimeFormat('fr-FR',{timeZone:zone,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())}
@@ -1610,7 +1641,7 @@ function runTradeExport(form){
  closeModal();exportCSV(rows,`journal-trading-${suffix}.csv`);
 }
 $('tradeExport').onclick=openTradeExport;$('importAll').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text());let incoming=obj.data||obj;if(!incoming.trades||!incoming.settings)throw new Error('Format invalide');if(confirm('Remplacer les données locales par cette sauvegarde ?')){state=Object.assign(structuredClone(defaults),incoming);save();renderAll();toast('Sauvegarde importée')}}catch(err){alert('Import impossible : '+err.message)}e.target.value=''};$('resetData').onclick=()=>{if(confirm('Supprimer toutes les données TradeDesk enregistrées dans ce navigateur ? Exporte une sauvegarde avant de continuer.')){state=structuredClone(defaults);save();renderAll();nav('home');initCloudAuth();loadEconomicCalendar();setInterval(()=>loadEconomicCalendar(true),15*60*1000);toast('Données locales réinitialisées')}};
-function togglePrivacy(){document.body.classList.toggle('privacy-on');const on=document.body.classList.contains('privacy-on');['privacyBtn','tradePrivacyBtn'].forEach(id=>{const b=$(id);if(b){b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',on?'Désactiver le mode discret':'Activer le mode discret');b.title=on?'Désactiver le mode discret':'Activer le mode discret'}})}$('privacyBtn').onclick=togglePrivacy;if($('tradePrivacyBtn'))$('tradePrivacyBtn').onclick=togglePrivacy;
+function togglePrivacy(){document.body.classList.toggle('privacy-on');const on=document.body.classList.contains('privacy-on');const b=$('privacyBtn');if(b){b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',on?'Désactiver le mode discret':'Activer le mode discret');b.title=on?'Désactiver le mode discret':'Activer le mode discret'}}$('privacyBtn').onclick=togglePrivacy;
 $('homeChartPeriod').addEventListener('change',()=>renderHome());
 function calculatePosition(){
  const point=Number($('calcPoint').value),capital=Number($('calcCapital').value),pct=Number($('calcRiskPct').value),entry=Number($('calcEntry').value),stop=Number($('calcStop').value),target=$('calcTarget').value===''?null:Number($('calcTarget').value);
