@@ -838,6 +838,63 @@ body th{color:#a7b7bb!important}body td{color:#e0e9e9!important}
  .bottom-nav button small,.mobile-nav button small,.nav-bottom button small{font-size:8.5px!important}
  .main{padding-bottom:calc(125px + env(safe-area-inset-bottom))!important}
 }
+
+/* Correctif iPhone — dock stable, formulaires accessibles et viewport */
+html{min-height:100%;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+body{min-height:100vh;min-height:100dvh;overflow-x:hidden}
+body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:none}
+@media(max-width:700px){
+  .main{padding-left:13px!important;padding-right:13px!important;padding-bottom:calc(132px + env(safe-area-inset-bottom))!important}
+  .bottom-nav,.mobile-nav,.nav-bottom{
+    position:fixed!important;left:10px!important;right:10px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    width:auto!important;max-width:none!important;margin:0!important;transform:none!important;
+    z-index:100!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    padding:7px 6px!important;min-height:64px;
+    padding-bottom:calc(7px + env(safe-area-inset-bottom))!important;
+  }
+  .bottom-nav button,.mobile-nav button,.nav-bottom button{min-height:49px!important;touch-action:manipulation}
+  .home-greeting{margin:3px 1px 11px!important;gap:8px!important}
+  .home-greeting h1{line-height:1.12}
+  .modal-bg{
+    position:fixed!important;inset:0!important;width:100%!important;height:100vh!important;height:100dvh!important;
+    z-index:120!important;align-items:flex-end!important;justify-content:center!important;
+    padding:env(safe-area-inset-top) 8px 0!important;overflow:hidden!important;
+    overscroll-behavior:contain;touch-action:pan-y;
+  }
+  .modal-bg.open{display:flex!important}
+  .modal{
+    display:flex!important;flex-direction:column!important;width:100%!important;max-width:820px!important;
+    max-height:calc(100dvh - env(safe-area-inset-top))!important;height:auto!important;
+    min-height:min(72dvh,560px);margin:0!important;
+    padding:15px 14px calc(12px + env(safe-area-inset-bottom))!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;
+    border-radius:20px 20px 0 0!important;
+  }
+  .modal-head{
+    position:sticky!important;top:-15px!important;z-index:5!important;flex:none!important;
+    margin:-15px -14px 14px!important;padding:15px 14px 11px!important;
+    background:var(--surface,#fff)!important;border-bottom:1px solid var(--line)!important;
+  }
+  #modalForm{display:flex!important;flex-direction:column!important;min-height:0;flex:1 0 auto}
+  #modalFields{flex:1 0 auto;min-width:0;padding-bottom:5px}
+  .form-actions{
+    position:sticky!important;bottom:-1px!important;z-index:6!important;flex:none!important;
+    margin:16px -14px -12px!important;padding:12px 14px calc(10px + env(safe-area-inset-bottom))!important;
+    background:var(--surface,#fff)!important;border-top:1px solid var(--line)!important;
+    box-shadow:0 -7px 18px rgba(30,45,35,.07)!important;
+  }
+  .form-actions .btn{min-height:46px!important}
+  .modal .form-grid{padding-bottom:5px}
+}
+@media(max-width:380px){
+  .main{padding-left:11px!important;padding-right:11px!important}
+  .bottom-nav button small,.mobile-nav button small,.nav-bottom button small{font-size:8px!important}
+  .modal{padding-left:12px!important;padding-right:12px!important}
+  .modal-head{margin-left:-12px!important;margin-right:-12px!important;padding-left:12px!important;padding-right:12px!important}
+  .form-actions{margin-left:-12px!important;margin-right:-12px!important;padding-left:12px!important;padding-right:12px!important}
+}
 </style>
 
 </head>
@@ -1037,8 +1094,8 @@ function uid(){return 'td_'+Date.now().toString(36)+'_'+Math.random().toString(3
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function fmt(v,n=2){return Number(v||0).toLocaleString('fr-FR',{maximumFractionDigits:n})}
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2300)}
-function showModal(title,html,mode,id=null){modalMode=mode;editingId=id;modalDirty=false;$('modalTitle').textContent=title;$('modalFields').innerHTML=html;$('modalBg').classList.toggle('detail-mode',mode==='detail');$('modalBg').classList.add('open')}
-function closeModal(force=false){if(!force&&modalDirty&&!confirm('Abandonner cette fiche ? Les modifications non enregistrées seront perdues.'))return;modalDirty=false;$('modalBg').classList.remove('open','detail-mode');$('modalForm').reset();modalMode='';editingId=null}
+function showModal(title,html,mode,id=null){modalMode=mode;editingId=id;modalDirty=false;$('modalTitle').textContent=title;$('modalFields').innerHTML=html;$('modalBg').classList.toggle('detail-mode',mode==='detail');$('modalBg').classList.add('open');document.body.classList.add('modal-open');const modal=$('modalBg').querySelector('.modal');if(modal)modal.scrollTop=0}
+function closeModal(force=false){if(!force&&modalDirty&&!confirm('Abandonner cette fiche ? Les modifications non enregistrées seront perdues.'))return;modalDirty=false;$('modalBg').classList.remove('open','detail-mode');document.body.classList.remove('modal-open');$('modalForm').reset();modalMode='';editingId=null}
 $('modalForm').addEventListener('input',()=>{if(modalMode==='trade')modalDirty=true});$('modalForm').addEventListener('change',()=>{if(modalMode==='trade')modalDirty=true});
 function field(label,name,html,full=false){return `<div class="field ${full?'full':''}"><label>${label}</label>${html}</div>`}
 function input(name,label,value='',type='text',opts={}){const mode=opts.inputmode||(type==='number'?'decimal':null);return field(label,name,`<input name="${name}" type="${type}" value="${esc(value)}" ${opts.required?'required':''} ${opts.step?`step="${opts.step}"`:''} ${mode?`inputmode="${mode}"`:''} placeholder="${opts.placeholder||''}">`,opts.full)}
