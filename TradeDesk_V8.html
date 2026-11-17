@@ -1464,6 +1464,9 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
 .econ-day-arrow[hidden]{display:none!important}
 .econ-home-actions .text-link{white-space:nowrap}
 @media(max-width:430px){.econ-home-actions{gap:6px}.econ-day-arrow{width:25px;height:25px}.econ-home-actions .text-link{font-size:11px}}
+
+.econ-full-link{display:flex;justify-content:flex-end;margin-top:14px;padding-top:12px;border-top:1px solid rgba(112,203,187,.14)}
+.econ-full-link .text-link{white-space:nowrap}
 </style>
 </head>
 <body><div id="tdBoot"><div><span></span>TRADEDESK</div></div><div id="tdLightbox" role="dialog" aria-modal="true" aria-label="Capture du trade"><button id="tdLightboxClose" type="button" aria-label="Fermer">×</button><img id="tdLightboxImage" alt="Capture du trade"><div id="tdLightboxCaption"></div></div>
@@ -1494,7 +1497,7 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
  <div id="reviewReminder" class="review-reminder hidden" role="status"></div>
  <div class="world-clocks" id="worldClocks" aria-label="Horloges des marchés"></div>
  <div class="home-greeting-divider clocks-divider" aria-hidden="true"></div>
-<section class="panel economic-home"><div class="home-card-title"><span class="title-mark">◷</span><h2 id="economicHomeTitle">À surveiller aujourd’hui</h2><div class="econ-home-actions"><button type="button" class="econ-day-arrow" id="economicHomePrev" aria-label="Revenir aux annonces du jour" title="Aujourd’hui" hidden>‹</button><button type="button" class="econ-day-arrow" id="economicHomeNext" aria-label="Voir les annonces de demain" title="Demain">›</button><button class="text-link" data-page="econ">Calendrier complet →</button></div></div><p class="econ-caption">Annonces américaines · impact moyen et fort · horaires de Paris</p><div id="economicHomeList" class="economic-list"><div class="empty">Chargement des annonces économiques…</div></div></section>
+<section class="panel economic-home"><div class="home-card-title"><span class="title-mark">◷</span><h2 id="economicHomeTitle">À surveiller aujourd’hui</h2><div class="econ-home-actions"><button type="button" class="econ-day-arrow" id="economicHomePrev" aria-label="Revenir aux annonces du jour" title="Aujourd’hui" hidden>‹</button><button type="button" class="econ-day-arrow" id="economicHomeNext" aria-label="Voir les annonces de demain" title="Demain">›</button></div></div><p class="econ-caption">Annonces américaines · impact moyen et fort · horaires de Paris</p><div id="economicHomeList" class="economic-list"><div class="empty">Chargement des annonces économiques…</div></div><div class="econ-full-link"><button class="text-link" data-page="econ">Calendrier complet →</button></div></section>
 
  <div class="home-hero panel"><div class="hero-topline"><div class="hero-copy"><span class="eyebrow">PERFORMANCE CUMULÉE</span><strong id="homeTotalR">—</strong><small id="homeRangeLabel">Résultat total · R</small></div><label class="chart-period-wrap"><span class="sr-only">Période du graphique</span><select id="homeChartPeriod" aria-label="Période du graphique"><option value="7">7 jours</option><option value="30">30 jours</option><option value="month">1 mois</option><option value="all" selected>Depuis toujours</option></select></label></div><div class="hero-chart" id="homeCurve"><div class="chart-empty">Ta courbe apparaîtra après tes premiers trades clôturés.</div></div></div>
  <div class="home-kpis">
