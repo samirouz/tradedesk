@@ -914,11 +914,12 @@ body th{color:#a7b7bb!important}body td{color:#e0e9e9!important}
 }
 
 /* Correctif iPhone — dock stable, formulaires accessibles et viewport */
-html{min-height:100%;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
-body{min-height:100vh;min-height:100dvh;overflow-x:hidden}
+html{min-height:100%;-webkit-text-size-adjust:100%;overscroll-behavior-y:auto}
+body{min-height:100vh;min-height:100dvh;overflow-x:hidden;overscroll-behavior-y:auto}
 body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:none}
 @media(max-width:700px){
   .main{padding-left:13px!important;padding-right:13px!important;padding-bottom:calc(132px + env(safe-area-inset-bottom))!important}
+  input,select,textarea,.control{font-size:16px!important}
   .bottom-nav,.mobile-nav,.nav-bottom{
     position:fixed!important;left:10px!important;right:10px!important;
     bottom:calc(8px + env(safe-area-inset-bottom))!important;
@@ -1557,11 +1558,11 @@ function field(label,name,html,full=false){return `<div class="field ${full?'ful
 function input(name,label,value='',type='text',opts={}){const mode=opts.inputmode||(type==='number'?'decimal':null);return field(label,name,`<input name="${name}" type="${type}" value="${esc(value)}" ${opts.required?'required':''} ${opts.readonly?'readonly':''} ${opts.step?`step="${opts.step}"`:''} ${mode?`inputmode="${mode}"`:''} placeholder="${opts.placeholder||''}">`,opts.full)}
 function select(name,label,options,value='',full=false){return field(label,name,`<select name="${name}">${options.map(x=>`<option value="${esc(x)}" ${x===value?'selected':''}>${esc(x)}</option>`).join('')}</select>`,full)}
 function textarea(name,label,value='',full=true,placeholder=''){return field(label,name,`<textarea name="${name}" placeholder="${esc(placeholder)}">${esc(value)}</textarea>`,full)}
-if('scrollRestoration' in history)history.scrollRestoration='manual';document.body.classList.add('home-active');window.addEventListener('pageshow',()=>window.scrollTo(0,0));
+if('scrollRestoration' in history)history.scrollRestoration='auto';history.replaceState({tdPage:currentPage},'',location.href);document.body.classList.add('home-active');
 function closeMobileNav(){document.body.classList.remove('nav-open');$('sidebar').classList.remove('open');$('sidebarBackdrop').classList.remove('open');$('mobileMenu').setAttribute('aria-expanded','false')}
 function toggleMobileNav(){const open=!$('sidebar').classList.contains('open');$('sidebar').classList.toggle('open',open);$('sidebarBackdrop').classList.toggle('open',open);document.body.classList.toggle('nav-open',open);$('mobileMenu').setAttribute('aria-expanded',String(open))}
-function nav(page){currentPage=page;document.body.classList.toggle('home-active',page==='home');document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('#sidebar [data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));$('masthead').style.display=page==='home'?'flex':'none';$('globalHomeBtn').hidden=page==='home';closeMobileNav();window.scrollTo(0,0);if(page==='home')renderHome();if(page==='econ')renderEconomicFull();if(page==='trading')renderTrading();if(page==='backtest')renderBacktest();if(page==='analytics')renderAnalytics();if(page==='calendar')renderCalendar();if(page==='settings'){showSettingsIndex();renderSettings()}}
-document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));$('mobileMenu').onclick=toggleMobileNav;$('sidebarBackdrop').onclick=closeMobileNav;$('globalHomeBtn').onclick=()=>nav('home');$('globalHomeBtn').hidden=true;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileNav()});$('modalClose').onclick=closeModal;$('modalCancel').onclick=closeModal;$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeModal()});
+function nav(page,fromHistory=false){if(!page||page===currentPage)return;if(!fromHistory)history.pushState({tdPage:page},'',location.href);currentPage=page;document.body.classList.toggle('home-active',page==='home');document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('#sidebar [data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));$('masthead').style.display=page==='home'?'flex':'none';$('globalHomeBtn').hidden=page==='home';closeMobileNav();window.scrollTo(0,0);if(page==='home')renderHome();if(page==='econ')renderEconomicFull();if(page==='trading')renderTrading();if(page==='backtest')renderBacktest();if(page==='analytics')renderAnalytics();if(page==='calendar')renderCalendar();if(page==='settings'){showSettingsIndex();renderSettings()}}
+window.addEventListener('popstate',e=>{const target=e.state?.tdPage;if(target)nav(target,true)});document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));$('mobileMenu').onclick=toggleMobileNav;$('sidebarBackdrop').onclick=closeMobileNav;$('globalHomeBtn').onclick=()=>nav('home');$('globalHomeBtn').hidden=true;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileNav()});$('modalClose').onclick=closeModal;$('modalCancel').onclick=closeModal;$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeModal()});
 function partsAt(date,zone){const p=new Intl.DateTimeFormat('en-GB',{timeZone:zone,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date);return Object.fromEntries(p.filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
 function timeAt(zone){return new Intl.DateTimeFormat('fr-FR',{timeZone:zone,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())}
 function isSessionOpen(now,zone,start,end){const p=partsAt(now,zone),h=+p.hour,d=new Date(Date.UTC(+p.year,+p.month-1,+p.day)).getUTCDay();return d>=1&&d<=5&&(h>start||h===start)&&(h<end)}
