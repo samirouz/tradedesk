@@ -1986,7 +1986,7 @@ function openOpportunityForm(campaignId='',o=null,quick=false){
  if(rr)rr.textContent=Number.isFinite(e)&&Number.isFinite(tp)&&qty>0&&risk>0&&pv>0?(reward/risk).toFixed(2).replace('.',',')+' R potentiel':'Renseigne entrée, risque et TP.';
  let exit=out==='TP atteint'?tp:out==='SL touché'?(beMoved&&Number.isFinite(bep)?bep:sl):manual;if(early&&Number.isFinite(ep))exit=ep;
  let valid=Number.isFinite(e)&&e>0&&Number.isFinite(exit)&&exit>0&&Number.isFinite(qty)&&qty>0&&pv>0&&Number.isFinite(risk)&&risk>0,pnl=0;
- if(out==='SL touché'&&!hasSL&&!beMoved)valid=false;
+ if(early&&!Number.isFinite(ep))valid=false;if(out==='SL touché'&&!hasSL&&!beMoved)valid=false;
  if(partial){valid=valid&&Number.isFinite(pp)&&pp>0&&Number.isFinite(pq)&&pq>0&&pq<qty;if(valid)pnl+=(pp-e)*dir*pq*pv}
  if(valid)pnl+=(exit-e)*dir*(qty-(partial?pq:0))*pv;
  const result=valid?pnl/risk:NaN;if(res)res.textContent=Number.isFinite(result)?(pnl>0?'+':'')+result.toFixed(2).replace('.',',')+' R':'Vérifie le risque et les sorties renseignées.';if(hidden)hidden.value=Number.isFinite(result)?String(Math.round(result*10000)/10000):''
