@@ -1165,6 +1165,106 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
   }
 }
 </style>
+
+<style id="tradedesk-mobile-page-rhythm-v2">
+/* Rééquilibrage général des pages secondaires — l'accueil reste inchangé */
+@media(max-width:700px){
+  body:not(.home-active) .main{
+    padding:14px 13px calc(96px + env(safe-area-inset-bottom))!important;
+  }
+  body:not(.home-active) .page.active{
+    display:block!important;
+    min-height:0!important;
+    height:auto!important;
+  }
+  body:not(.home-active) .page-head,
+  body:not(.home-active) .trade-head,
+  body:not(.home-active) .trade-page-head{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:10px 12px!important;
+    margin:0 0 16px!important;
+    padding:0!important;
+    min-height:0!important;
+  }
+  body:not(.home-active) .page-head>div:first-child,
+  body:not(.home-active) .trade-head>div:first-child,
+  body:not(.home-active) .trade-page-head>div:first-child{
+    flex:1 1 auto!important;
+    min-width:0!important;
+  }
+  body:not(.home-active) .page-head h1,
+  body:not(.home-active) .trade-head h1,
+  body:not(.home-active) .trade-page-head h1{
+    margin:0!important;
+    line-height:1.08!important;
+  }
+  body:not(.home-active) .page-head .eyebrow{margin-bottom:4px!important}
+  body:not(.home-active) .trade-head-actions{
+    flex:1 0 100%!important;
+    width:100%!important;
+    max-width:100%!important;
+    justify-content:stretch!important;
+    margin:0!important;
+  }
+  body:not(.home-active) .trade-head-actions .btn,
+  body:not(.home-active) .trade-head .trade-new,
+  body:not(.home-active) .trade-page-head>.btn{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:46px!important;
+    white-space:normal!important;
+  }
+  body:not(.home-active) .page>.panel,
+  body:not(.home-active) .page>.analytics-controls,
+  body:not(.home-active) .page>.trade-metrics,
+  body:not(.home-active) .page>.trade-filters,
+  body:not(.home-active) .page>.analytics-kpis,
+  body:not(.home-active) .page>.analytics-curve-panel{
+    margin-top:0!important;
+  }
+  body:not(.home-active) .trade-filters{margin-bottom:14px!important;gap:8px!important}
+  body:not(.home-active) .trade-history-head,
+  body:not(.home-active) .trade-analysis-toggle{margin-top:18px!important}
+  /* Calendrier : aucun espace artificiel entre le titre, la grille et le détail */
+  #page-calendar .page-head{margin-bottom:14px!important}
+  #page-calendar>.panel{margin:0 0 16px!important;padding:13px!important}
+  #page-calendar .calendar-grid{
+    height:auto!important;
+    min-height:0!important;
+    align-content:start!important;
+    grid-auto-rows:minmax(58px,auto)!important;
+    gap:4px!important;
+  }
+  #page-calendar .cal-day{
+    height:auto!important;
+    min-height:58px!important;
+    max-height:none!important;
+    padding:6px 5px!important;
+  }
+  #page-calendar .day-detail{margin-top:14px!important;padding-top:13px!important}
+  /* Paramètres : catégories compactes et sections ouvertes occupant toute la largeur */
+  #page-settings .page-head{margin-bottom:16px!important}
+  #page-settings .settings-index{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin:0!important}
+  #page-settings .settings-category{min-height:54px!important;padding:13px 14px!important}
+  #page-settings .settings-section{margin:0!important;padding:13px!important;width:100%!important;max-width:100%!important}
+  #page-settings .settings-section-head{align-items:flex-start!important;flex-wrap:wrap!important;gap:10px!important}
+  #page-settings .settings-section-head>.btn{width:100%!important}
+  /* Les cartes et tableaux restent fluides sans imposer de hauteur vide */
+  body:not(.home-active) .panel{min-height:0!important}
+  body:not(.home-active) .analytics-section{margin:18px 0!important}
+}
+@media(min-width:701px){
+  body:not(.home-active) .main{padding-top:22px!important}
+  body:not(.home-active) .page-head,
+  body:not(.home-active) .trade-head,
+  body:not(.home-active) .trade-page-head{margin-top:0!important;margin-bottom:20px!important}
+}
+</style>
 </head>
 <body><div id="tdBoot"><div><span></span>TRADEDESK</div></div><div id="tdLightbox" role="dialog" aria-modal="true" aria-label="Capture du trade"><button id="tdLightboxClose" type="button" aria-label="Fermer">×</button><img id="tdLightboxImage" alt="Capture du trade"><div id="tdLightboxCaption"></div></div>
 <div class="app">
