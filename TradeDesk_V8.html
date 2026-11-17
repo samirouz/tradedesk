@@ -385,7 +385,47 @@ body.privacy-on #page-trading .mini-win-ring strong,body.privacy-on #page-tradin
 .pin-dots{display:flex;justify-content:center;gap:13px;margin:14px 0 19px}.pin-dot{width:11px;height:11px;border:1px solid #71867a;border-radius:50%;background:transparent}.pin-dot.filled{background:#c7e3d0;border-color:#c7e3d0;box-shadow:0 0 12px #c7e3d066}
 .pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:270px;margin:0 auto}.pin-key{height:53px;border:1px solid #34443e;border-radius:14px;background:#202d28;color:#f5f7f4;font-size:20px;font-weight:650;cursor:pointer;touch-action:manipulation}.pin-key:active{background:#344a3e;transform:scale(.97)}.pin-key.subtle{font-size:11px;color:#a9b9ae}.pin-error{color:#ffaaa2;font-size:11px;min-height:18px;margin:10px 0 2px}.pin-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:13px}.pin-actions button{font-size:11px}.pin-foot{color:#72857a;font-size:9px;margin-top:14px;letter-spacing:.4px}
 @media(max-height:700px){.pin-box{padding:20px}.pin-key{height:46px}.pin-dots{margin:10px 0 13px}}
-\n/* Finition du menu latéral : libellés uniformes en capitales */\n.sidebar .nav button{ text-transform:uppercase; letter-spacing:.065em; font-size:12px; font-weight:650; }\n.sidebar .nav-label{ text-transform:uppercase; letter-spacing:.20em; }\n</style>
+\n/* Finition du menu latéral : libellés uniformes en capitales */\n.sidebar .nav button{ text-transform:uppercase; letter-spacing:.065em; font-size:12px; font-weight:650; }\n.sidebar .nav-label{ text-transform:uppercase; letter-spacing:.20em; }\n
+/* TradeDesk — correctifs de navigation et respiration mobile */
+@media(max-width:700px){
+ .global-controls{
+   position:fixed!important;top:12px!important;right:12px!important;
+   z-index:300!important;transform:none!important;
+ }
+ .global-controls button{position:relative!important;z-index:301!important}
+ .sidebar{
+   position:fixed!important;top:0!important;right:0!important;bottom:0!important;
+   height:100dvh!important;max-height:100dvh!important;
+   overflow-y:auto!important;overscroll-behavior:contain!important;
+   -webkit-overflow-scrolling:touch!important;
+ }
+ .drawer-head{position:sticky!important;top:0!important;z-index:4!important;
+   background:#101d22!important;padding-top:calc(env(safe-area-inset-top) + 8px)!important}
+ .drawer-head span{display:none!important}
+ .sidebar .nav button{
+   text-transform:uppercase!important;letter-spacing:.055em!important;
+   font-size:11px!important;font-weight:700!important;
+ }
+ .sidebar .nav-label{
+   text-transform:uppercase!important;letter-spacing:.19em!important;
+ }
+ .main{padding-top:76px!important}
+ body.home-active .main{padding-top:8px!important}
+ .page-head,.trade-head,.trade-page-head{
+   align-items:flex-start!important;flex-wrap:wrap!important;
+   gap:13px!important;margin:8px 0 25px!important;
+ }
+ .page-head>div:first-child,.trade-head>div:first-child,.trade-page-head>div:first-child{
+   flex:1 1 100%!important;min-width:0!important;
+ }
+ .page-head>.btn,.trade-page-head>.btn{
+   flex:0 1 auto!important;margin-top:0!important;
+ }
+ .page-head h1,.trade-head h1,.trade-page-head h1{line-height:1.08!important}
+ .page>.panel,.page>.analytics-controls,.page>.trade-filters{margin-top:18px!important}
+ .page .section-title{margin-top:28px!important}
+}
+</style>
 <style>
 /* TradeDesk V9 — interface inspirée des journaux de trading premium */
 :root{--bg:#f4f5f1;--surface:#ffffff;--surface2:#f7f8f5;--line:#e5e9e2;--text:#17251e;--muted:#758279;--accent:#dcebe0;--green:#28734d;--red:#c65c5c;--amber:#b88738;--blue:#5c7fa7;--radius:18px}
@@ -1077,17 +1117,17 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
 <body><div id="tdBoot"><div><span></span>TRADEDESK</div></div><div id="tdLightbox" role="dialog" aria-modal="true" aria-label="Capture du trade"><button id="tdLightboxClose" type="button" aria-label="Fermer">×</button><img id="tdLightboxImage" alt="Capture du trade"><div id="tdLightboxCaption"></div></div>
 <div class="app">
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-<aside class="sidebar" id="sidebar"><div class="drawer-head"><strong>MENU</strong><span>TRADEDESK</span></div>
+<aside class="sidebar" id="sidebar"><div class="drawer-head"><strong>MENU</strong></div>
  <div class="brand"><strong>TradeDesk</strong><small>TRADING WORKSPACE</small></div>
  <div class="nav-label">ESPACE</div>
  <nav class="nav">
   <button data-page="home" class="active"><span class="ico">⌂</span>Accueil</button>
   <button data-page="trading"><span class="ico">↗</span>Journal de trading</button>
   <button data-page="backtest"><span class="ico">⌁</span>Backtest</button>
-  <button data-page="calendar"><span class="ico">▦</span>Calendrier & sessions</button>
+  <button data-page="calendar"><span class="ico">▦</span>Calendrier</button>
  </nav>
  <div class="nav-label">CONFIGURATION</div>
- <nav class="nav"><button data-page="settings"><span class="ico">⚙</span>Paramètres</button></nav>
+ <nav class="nav"><button data-page="settings"><span class="ico">◇</span>Paramètres</button></nav>
  <div class="nav-label">OUTILS</div><nav class="nav"><button data-page="calculator"><span class="ico">＋</span>Calculateur</button><button data-page="analytics"><span class="ico">◫</span>Analytics</button><button data-page="econ"><span class="ico">◷</span>Calendrier économique</button></nav>
  <div class="side-bottom"><div class="cloud-status" id="cloudStatus">Cloud : connexion requise</div><button id="signOutBtn" type="button">Se déconnecter</button><br>TradeDesk · espace personnel<br><button class="text-link" id="exportSide">Exporter une sauvegarde →</button></div>
 </aside>
