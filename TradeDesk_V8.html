@@ -1275,6 +1275,10 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
   /* Paramètres : catégories compactes et sections ouvertes occupant toute la largeur */
   #page-settings .page-head{margin-bottom:16px!important}
   #page-settings .settings-index{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin:0!important}
+  /* Settings navigation: hidden state must override the layout's !important display rules */
+  #page-settings .settings-index[hidden]{display:none!important}
+  #page-settings .settings-section[hidden]{display:none!important}
+  #page-settings .settings-section:not([hidden]){display:block!important}
   #page-settings .settings-category{min-height:54px!important;padding:13px 14px!important}
   #page-settings .settings-section{margin:0!important;padding:13px!important;width:100%!important;max-width:100%!important}
   #page-settings .settings-section-head{align-items:flex-start!important;flex-wrap:wrap!important;gap:10px!important}
