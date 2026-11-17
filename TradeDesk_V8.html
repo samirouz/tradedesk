@@ -1125,6 +1125,46 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
 }
 </style>
 
+
+<style id="tradedesk-mobile-controls-final">
+/* Correctif prioritaire : dégager la zone des commandes fixes en haut */
+@media(max-width:700px){
+  body:not(.home-active) .main{
+    padding-top:calc(88px + env(safe-area-inset-top))!important;
+  }
+  body:not(.home-active) .trade-head,
+  body:not(.home-active) .trade-page-head,
+  body:not(.home-active) .page-head{
+    position:relative!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+    gap:12px!important;
+    margin:0 0 20px!important;
+    padding:0!important;
+  }
+  body:not(.home-active) .trade-head-actions{
+    display:flex!important;
+    width:100%!important;
+    max-width:100%!important;
+    justify-content:stretch!important;
+  }
+  body:not(.home-active) .trade-head-actions .btn,
+  body:not(.home-active) .trade-head .trade-new{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    white-space:normal!important;
+  }
+  body:not(.home-active) .global-controls{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top) + 10px)!important;
+    right:13px!important;
+    z-index:500!important;
+  }
+}
+</style>
 </head>
 <body><div id="tdBoot"><div><span></span>TRADEDESK</div></div><div id="tdLightbox" role="dialog" aria-modal="true" aria-label="Capture du trade"><button id="tdLightboxClose" type="button" aria-label="Fermer">×</button><img id="tdLightboxImage" alt="Capture du trade"><div id="tdLightboxCaption"></div></div>
 <div class="app">
