@@ -895,11 +895,49 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
   .modal-head{margin-left:-12px!important;margin-right:-12px!important;padding-left:12px!important;padding-right:12px!important}
   .form-actions{margin-left:-12px!important;margin-right:-12px!important;padding-left:12px!important;padding-right:12px!important}
 }
+
+/* TradeDesk mobile navigation & form footer — refinement */
+@media(max-width:700px){
+ .main{padding:12px 13px 40px!important}
+ .masthead{margin:0 0 9px!important;padding:0 0 7px!important;border:0!important;min-height:40px!important}
+ .mast-left{gap:9px!important}
+ .td-logo{width:34px!important;height:34px!important;flex:0 0 34px}
+ .wordmark{font-size:17px!important}
+ .mast-actions{gap:8px!important}
+ .home-greeting{margin:0 1px 10px!important}
+ .home-greeting h1{font-size:clamp(30px,8vw,38px)!important;line-height:1.05!important}
+ .mobile-menu-toggle{display:flex!important;position:fixed!important;top:calc(env(safe-area-inset-top) + 12px)!important;right:13px!important;z-index:151!important;width:44px!important;height:44px!important;border:1px solid #35515a!important;border-radius:14px!important;background:rgba(15,28,34,.96)!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:5px!important;box-shadow:0 6px 20px #0003}
+ .mobile-menu-toggle span{display:block;width:18px;height:2px;border-radius:2px;background:#8ed9c9;transition:transform .18s,opacity .18s}
+ .mobile-menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(7px) rotate(45deg)}
+ .mobile-menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+ .mobile-menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-7px) rotate(-45deg)}
+ .sidebar{display:flex!important;position:fixed!important;top:0!important;right:0!important;left:auto!important;bottom:0!important;width:min(310px,86vw)!important;height:100dvh!important;max-height:100dvh!important;overflow-y:auto!important;z-index:150!important;padding:calc(env(safe-area-inset-top) + 22px) 17px calc(env(safe-area-inset-bottom) + 20px)!important;background:#101d22!important;border-left:1px solid #30464d!important;box-shadow:-18px 0 48px #0008!important;transform:translateX(110%)!important;transition:transform .24s ease!important}
+ .sidebar.open{transform:translateX(0)!important}
+ .sidebar-backdrop{display:block!important;position:fixed!important;inset:0!important;background:rgba(2,9,12,.58)!important;backdrop-filter:blur(3px);z-index:149!important;opacity:0!important;visibility:hidden!important;transition:opacity .2s,visibility .2s}
+ .sidebar-backdrop.open{opacity:1!important;visibility:visible!important}
+ .sidebar .brand{padding:0 8px 22px!important}
+ .sidebar .nav{gap:5px!important}
+ .sidebar .nav button{padding:13px 11px!important;font-size:13px!important;min-height:45px}
+ .sidebar .side-bottom{margin-top:20px!important}
+ .modal-bg{padding:env(safe-area-inset-top) 8px 0!important}
+ .modal{display:flex!important;flex-direction:column!important;overflow:hidden!important;max-height:calc(100dvh - env(safe-area-inset-top) - 8px)!important;height:min(90dvh,780px)!important;min-height:0!important;padding:0!important;border-radius:21px 21px 0 0!important}
+ .modal-head{position:relative!important;top:auto!important;flex:0 0 auto!important;margin:0!important;padding:17px 16px 13px!important;background:#122127!important;border-bottom:1px solid #30464d!important}
+ .modal-head h2{font-size:18px!important;color:#edf5f3!important}
+ #modalForm{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}
+ #modalFields{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;padding:18px 16px 22px!important}
+ .form-actions{position:relative!important;bottom:auto!important;flex:0 0 auto!important;display:flex!important;justify-content:flex-end!important;gap:10px!important;margin:0!important;padding:13px 16px calc(13px + env(safe-area-inset-bottom))!important;background:#122127!important;border-top:1px solid #30464d!important;box-shadow:0 -8px 22px #0002!important}
+ .form-actions .btn{min-height:48px!important;padding:11px 17px!important;border-radius:13px!important;font-size:14px!important}
+ .form-actions .btn.primary{background:#78d2c1!important;color:#102a2b!important;border:1px solid #78d2c1!important}
+ .modal .form-grid{padding-bottom:8px!important}
+ body.modal-open{position:fixed!important;overflow:hidden!important;width:100%!important}
+}
+@media(min-width:701px){.mobile-menu-toggle,.sidebar-backdrop{display:none!important}}
 </style>
 
 </head>
 <body><div id="tdBoot"><div><span></span>TRADEDESK</div></div><div id="tdLightbox" role="dialog" aria-modal="true" aria-label="Capture du trade"><button id="tdLightboxClose" type="button" aria-label="Fermer">×</button><img id="tdLightboxImage" alt="Capture du trade"><div id="tdLightboxCaption"></div></div>
 <div class="app">
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 <aside class="sidebar" id="sidebar">
  <div class="brand"><strong>TradeDesk</strong><small>TRADING WORKSPACE</small></div>
  <div class="nav-label">ESPACE</div>
@@ -912,12 +950,13 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
  </nav>
  <div class="nav-label">CONFIGURATION</div>
  <nav class="nav"><button data-page="risk"><span class="ico">◈</span>Profils de risque</button><button data-page="settings"><span class="ico">⚙</span>Paramètres</button></nav>
- <div class="side-bottom">TradeDesk · version de travail V1<br>Données stockées dans ce navigateur.<br><button class="text-link" id="exportSide">Exporter une sauvegarde →</button></div>
+ <div class="nav-label">OUTILS</div><nav class="nav"><button data-page="analytics"><span class="ico">◫</span>Analytics</button><button data-page="econ"><span class="ico">◷</span>Calendrier économique</button></nav>
+ <div class="side-bottom"><div class="cloud-status" id="cloudStatus">Cloud : connexion requise</div><button id="signOutBtn" type="button">Se déconnecter</button><br>TradeDesk · espace personnel<br><button class="text-link" id="exportSide">Exporter une sauvegarde →</button></div>
 </aside>
 <main class="main">
 <header class="masthead" id="masthead">
  <div class="mast-left"><div class="td-logo" aria-hidden="true"><svg viewBox="0 0 40 40"><rect x="1" y="1" width="38" height="38" rx="11" fill="#d4ded8"/><path d="M9 12h22M20 12v17M12 20h16" stroke="#18201b" stroke-width="3" stroke-linecap="round"/><path d="M25 24l5 5 5-5" fill="none" stroke="#18201b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(-3 -2)"/></svg></div><div><div class="wordmark">TradeDesk</div></div></div>
- <div class="mast-actions"><button class="privacy-toggle" id="privacyBtn" type="button" aria-label="Activer le mode discret" title="Mode discret"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.2 12s3.5-6.2 9.8-6.2 9.8 6.2 9.8 6.2-3.5 6.2-9.8 6.2S2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button></div>
+ <div class="mast-actions"><button class="mobile-menu-toggle" id="mobileMenu" type="button" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button><button class="privacy-toggle" id="privacyBtn" type="button" aria-label="Activer le mode discret" title="Mode discret"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.2 12s3.5-6.2 9.8-6.2 9.8 6.2 9.8 6.2-3.5 6.2-9.8 6.2S2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></button></div>
 </header>
 
 <section class="page active" id="page-home"><span id="parisDigital" hidden></span>
@@ -1023,8 +1062,7 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
 </section>
 </main>
 </div>
-<nav class="bottom-nav"><button data-page="home" class="active"><span>⌂</span><small>Accueil</small></button><button data-page="trading"><span>↗</span><small>Trading</small></button><button data-page="backtest"><span>⌁</span><small>Backtest</small></button><button data-page="calendar"><span>▦</span><small>Calendrier</small></button><button id="mobileMenu"><span>☰</span><small>Menu</small></button></nav>
-<div class="menu-sheet" id="menuSheet"><div class="cloud-status" id="cloudStatus">Cloud : connexion requise</div><button id="signOutBtn" type="button">Se déconnecter</button><button data-page="analytics">Analytics · laboratoire</button><button data-page="calculator">Calculateur</button><button data-page="econ">Calendrier économique</button><button data-page="risk">Profils de risque</button><button data-page="settings">Paramètres</button></div>
+
 
 <div class="auth-gate" id="authGate"><div class="auth-box"><div class="eyebrow">TRADEDESK · ESPACE PERSONNEL</div><h1 id="authTitle">Connexion</h1><p id="authDescription">Activation ou récupération du compte cloud TradeDesk.</p><form id="authForm"><label for="authEmail">Adresse e-mail</label><input id="authEmail" type="email" autocomplete="email" required placeholder="toi@exemple.com"><label for="authPassword">Mot de passe</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="8 caractères minimum"><div class="auth-actions"><button class="btn primary" id="authSubmit" type="submit">Se connecter</button><button class="auth-switch" id="authToggle" type="button">Créer mon compte</button></div></form><div class="auth-error" id="authError" role="status"></div></div></div>
 <div class="pin-gate" id="pinGate"><div class="pin-box"><div class="pin-brandmark">T</div><div class="eyebrow">TRADEDESK WORKSPACE</div><h1 id="pinGreeting">Bienvenue</h1><p id="pinDescription">Ton espace de trading. Saisis ton identifiant et ton code.</p><input class="pin-user" id="pinUsername" autocomplete="username" maxlength="24" placeholder="Nom d’utilisateur"><div class="pin-dots" id="pinDots" aria-label="Code à six chiffres"><i class="pin-dot"></i><i class="pin-dot"></i><i class="pin-dot"></i><i class="pin-dot"></i><i class="pin-dot"></i><i class="pin-dot"></i></div><div class="pin-keypad" id="pinKeypad"><button class="pin-key" data-digit="1">1</button><button class="pin-key" data-digit="2">2</button><button class="pin-key" data-digit="3">3</button><button class="pin-key" data-digit="4">4</button><button class="pin-key" data-digit="5">5</button><button class="pin-key" data-digit="6">6</button><button class="pin-key" data-digit="7">7</button><button class="pin-key" data-digit="8">8</button><button class="pin-key" data-digit="9">9</button><button class="pin-key subtle" data-action="clear">Effacer</button><button class="pin-key" data-digit="0">0</button><button class="pin-key subtle" data-action="back">⌫</button></div><div class="pin-error" id="pinError" role="status"></div><div class="pin-actions"><button class="auth-switch" id="pinForgot" type="button">Récupérer mon compte</button></div><div class="pin-foot">ACCÈS PERSONNEL · SYNCHRONISATION CLOUD</div></div></div>
@@ -1101,8 +1139,10 @@ function field(label,name,html,full=false){return `<div class="field ${full?'ful
 function input(name,label,value='',type='text',opts={}){const mode=opts.inputmode||(type==='number'?'decimal':null);return field(label,name,`<input name="${name}" type="${type}" value="${esc(value)}" ${opts.required?'required':''} ${opts.step?`step="${opts.step}"`:''} ${mode?`inputmode="${mode}"`:''} placeholder="${opts.placeholder||''}">`,opts.full)}
 function select(name,label,options,value='',full=false){return field(label,name,`<select name="${name}">${options.map(x=>`<option value="${esc(x)}" ${x===value?'selected':''}>${esc(x)}</option>`).join('')}</select>`,full)}
 function textarea(name,label,value='',full=true,placeholder=''){return field(label,name,`<textarea name="${name}" placeholder="${esc(placeholder)}">${esc(value)}</textarea>`,full)}
-function nav(page){currentPage=page;document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.bottom-nav [data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));$('masthead').style.display=page==='home'?'flex':'none';$('menuSheet').classList.remove('open');if(page==='home')renderHome();if(page==='econ')renderEconomicFull();if(page==='trading')renderTrading();if(page==='backtest')renderBacktest();if(page==='analytics')renderAnalytics();if(page==='calendar')renderCalendar();if(page==='risk')renderRisk();if(page==='settings')renderSettings()}
-document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));$('mobileMenu').onclick=()=> $('menuSheet').classList.toggle('open');document.addEventListener('click',e=>{if(!$('menuSheet').contains(e.target)&&e.target!==$('mobileMenu'))$('menuSheet').classList.remove('open')});$('modalClose').onclick=closeModal;$('modalCancel').onclick=closeModal;$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeModal()});
+function closeMobileNav(){document.body.classList.remove('nav-open');$('sidebar').classList.remove('open');$('sidebarBackdrop').classList.remove('open');$('mobileMenu').setAttribute('aria-expanded','false')}
+function toggleMobileNav(){const open=!$('sidebar').classList.contains('open');$('sidebar').classList.toggle('open',open);$('sidebarBackdrop').classList.toggle('open',open);document.body.classList.toggle('nav-open',open);$('mobileMenu').setAttribute('aria-expanded',String(open))}
+function nav(page){currentPage=page;document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('#sidebar [data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));$('masthead').style.display=page==='home'?'flex':'none';closeMobileNav();if(page==='home')renderHome();if(page==='econ')renderEconomicFull();if(page==='trading')renderTrading();if(page==='backtest')renderBacktest();if(page==='analytics')renderAnalytics();if(page==='calendar')renderCalendar();if(page==='risk')renderRisk();if(page==='settings')renderSettings()}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));$('mobileMenu').onclick=toggleMobileNav;$('sidebarBackdrop').onclick=closeMobileNav;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileNav()});$('modalClose').onclick=closeModal;$('modalCancel').onclick=closeModal;$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeModal()});
 function partsAt(date,zone){const p=new Intl.DateTimeFormat('en-GB',{timeZone:zone,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date);return Object.fromEntries(p.filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
 function timeAt(zone){return new Intl.DateTimeFormat('fr-FR',{timeZone:zone,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())}
 function isSessionOpen(now,zone,start,end){const p=partsAt(now,zone),h=+p.hour,d=new Date(Date.UTC(+p.year,+p.month-1,+p.day)).getUTCDay();return d>=1&&d<=5&&(h>start||h===start)&&(h<end)}
