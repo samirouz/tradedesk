@@ -385,7 +385,7 @@ body.privacy-on #page-trading .mini-win-ring strong,body.privacy-on #page-tradin
 .pin-dots{display:flex;justify-content:center;gap:13px;margin:14px 0 19px}.pin-dot{width:11px;height:11px;border:1px solid #71867a;border-radius:50%;background:transparent}.pin-dot.filled{background:#c7e3d0;border-color:#c7e3d0;box-shadow:0 0 12px #c7e3d066}
 .pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:270px;margin:0 auto}.pin-key{height:53px;border:1px solid #34443e;border-radius:14px;background:#202d28;color:#f5f7f4;font-size:20px;font-weight:650;cursor:pointer;touch-action:manipulation}.pin-key:active{background:#344a3e;transform:scale(.97)}.pin-key.subtle{font-size:11px;color:#a9b9ae}.pin-error{color:#ffaaa2;font-size:11px;min-height:18px;margin:10px 0 2px}.pin-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:13px}.pin-actions button{font-size:11px}.pin-foot{color:#72857a;font-size:9px;margin-top:14px;letter-spacing:.4px}
 @media(max-height:700px){.pin-box{padding:20px}.pin-key{height:46px}.pin-dots{margin:10px 0 13px}}
-</style>
+\n/* Finition du menu latéral : libellés uniformes en capitales */\n.sidebar .nav button{ text-transform:uppercase; letter-spacing:.065em; font-size:12px; font-weight:650; }\n.sidebar .nav-label{ text-transform:uppercase; letter-spacing:.20em; }\n</style>
 <style>
 /* TradeDesk V9 — interface inspirée des journaux de trading premium */
 :root{--bg:#f4f5f1;--surface:#ffffff;--surface2:#f7f8f5;--line:#e5e9e2;--text:#17251e;--muted:#758279;--accent:#dcebe0;--green:#28734d;--red:#c65c5c;--amber:#b88738;--blue:#5c7fa7;--radius:18px}
@@ -1077,7 +1077,7 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
 <body><div id="tdBoot"><div><span></span>TRADEDESK</div></div><div id="tdLightbox" role="dialog" aria-modal="true" aria-label="Capture du trade"><button id="tdLightboxClose" type="button" aria-label="Fermer">×</button><img id="tdLightboxImage" alt="Capture du trade"><div id="tdLightboxCaption"></div></div>
 <div class="app">
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-<aside class="sidebar" id="sidebar"><div class="drawer-head"><strong>Navigation</strong><span>TRADEDESK</span></div>
+<aside class="sidebar" id="sidebar"><div class="drawer-head"><strong>MENU</strong><span>TRADEDESK</span></div>
  <div class="brand"><strong>TradeDesk</strong><small>TRADING WORKSPACE</small></div>
  <div class="nav-label">ESPACE</div>
  <nav class="nav">
@@ -1102,7 +1102,7 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
  <div id="reviewReminder" class="review-reminder hidden" role="status"></div>
  <div class="world-clocks" id="worldClocks" aria-label="Horloges des marchés"></div>
  <div class="home-greeting-divider clocks-divider" aria-hidden="true"></div>
-<section class="panel economic-home"><div class="home-card-title"><span class="title-mark">◷</span><h2>À surveiller aujourd'hui</h2><button class="text-link" data-page="econ">Calendrier complet →</button></div><p class="econ-caption">Annonces américaines · impact moyen et fort · horaires de Paris</p><div id="economicHomeList" class="economic-list"><div class="empty">Chargement des annonces économiques…</div></div><div class="econ-source"><a href="https://showmytrades.com/tools/economic-calendar" target="_blank" rel="noopener">Data from ShowMyTrades</a></div></section>
+<section class="panel economic-home"><div class="home-card-title"><span class="title-mark">◷</span><h2>À surveiller aujourd'hui</h2><button class="text-link" data-page="econ">Calendrier complet →</button></div><p class="econ-caption">Annonces américaines · impact moyen et fort · horaires de Paris</p><div id="economicHomeList" class="economic-list"><div class="empty">Chargement des annonces économiques…</div></div></section>
 
  <div class="home-hero panel"><div class="hero-topline"><div class="hero-copy"><span class="eyebrow">PERFORMANCE CUMULÉE</span><strong id="homeTotalR">—</strong><small id="homeRangeLabel">Résultat total · R</small></div><label class="chart-period-wrap"><span class="sr-only">Période du graphique</span><select id="homeChartPeriod" aria-label="Période du graphique"><option value="7">7 jours</option><option value="30">30 jours</option><option value="month">1 mois</option><option value="all" selected>Depuis toujours</option></select></label></div><div class="hero-chart" id="homeCurve"><div class="chart-empty">Ta courbe apparaîtra après tes premiers trades clôturés.</div></div></div>
  <div class="home-kpis">
