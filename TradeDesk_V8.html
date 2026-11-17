@@ -1065,6 +1065,12 @@ body.modal-open{overflow:hidden;position:fixed;width:100%;overscroll-behavior:no
  .mast-left{margin-left:0!important;margin-right:auto!important;justify-content:flex-start!important}
  .page-head .subtitle{display:none!important}
 }
+
+/* Accueil — séparation nette entre horloges et calendrier économique */
+@media(max-width:700px){
+ .home-greeting-divider.clocks-divider{display:block!important;height:1px!important;min-height:1px!important;margin:18px 3px 20px!important;background:linear-gradient(90deg,transparent 0%,#38535a 10%,#38535a 90%,transparent 100%)!important;opacity:1!important}
+ .economic-home{margin-top:0!important}
+}
 </style>
 
 </head>
@@ -1350,8 +1356,67 @@ function frenchEconomicTitle(title){
  if(/jobless claims/.test(key))return /continuing/.test(key)?'Inscriptions hebdomadaires au chômage (continuing claims)':'Nouvelles inscriptions hebdomadaires au chômage';
  if(/consumer price index/.test(key))return /core/.test(key)?'Inflation sous-jacente (Core CPI)':'Indice des prix à la consommation (CPI)';
  if(/producer price index/.test(key))return /core/.test(key)?'Indice des prix à la production sous-jacent (Core PPI)':'Indice des prix à la production (PPI)';
- if(/nonfarm payroll|non-farm payroll/.test(key))return 'Créations d’emplois non agricoles (NFP)';
- return raw;
+ if(/adp employment change/.test(key))return /4.?week|four.?week/.test(key)?'Variation moyenne sur 4 semaines de l’emploi privé ADP':'Variation de l’emploi privé ADP';
+ if(/retail sales control group/.test(key))return 'Ventes au détail — groupe de contrôle';
+ if(/retail sales/.test(key))return /ex.?auto|less.?auto|excluding.?auto/.test(key)?'Ventes au détail hors automobiles':'Ventes au détail';
+ if(/musalem/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours d’Alberto Musalem, membre de la Fed';
+ if(/hammack/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Beth Hammack, membre de la Fed';
+ if(/barkin/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Thomas Barkin, membre de la Fed';
+ if(/williams/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de John Williams, membre de la Fed';
+ if(/waller/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Christopher Waller, membre de la Fed';
+ if(/jefferson/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Philip Jefferson, membre de la Fed';
+ if(/bowman/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Michelle Bowman, membre de la Fed';
+ if(/goolsbee/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours d’Austan Goolsbee, membre de la Fed';
+ if(/bostic/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Raphael Bostic, membre de la Fed';
+ if(/daly/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Mary Daly, membre de la Fed';
+ if(/kashkari/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Neel Kashkari, membre de la Fed';
+ if(/powell/.test(key)&&/(speech|speaks|talks)/.test(key))return 'Discours de Jerome Powell, président de la Fed';
+ if(/fed.?s? .*speech|speech.*fed|federal reserve.*speech/.test(key))return 'Intervention d’un membre de la Réserve fédérale';
+ if(/employment cost index/.test(key))return 'Indice du coût de l’emploi';
+ if(/private payrolls/.test(key))return 'Créations d’emplois dans le secteur privé';
+ if(/initial claims/.test(key))return 'Nouvelles inscriptions au chômage';
+ if(/continuing claims/.test(key))return 'Inscriptions continues au chômage';
+ if(/average hourly earnings/.test(key))return /yoy|year/.test(key)?'Évolution annuelle du salaire horaire moyen':'Salaire horaire moyen';
+ if(/manufacturing pmi/.test(key))return 'Indice PMI manufacturier';
+ if(/services pmi/.test(key))return 'Indice PMI des services';
+ if(/composite pmi/.test(key))return 'Indice PMI composite';
+ if(/pending home sales/.test(key))return 'Ventes de logements en attente';
+ if(/existing home sales/.test(key))return 'Ventes de logements anciens';
+ if(/new home sales/.test(key))return 'Ventes de logements neufs';
+ if(/consumer credit/.test(key))return 'Crédit à la consommation';
+ if(/personal income/.test(key))return 'Revenus des ménages';
+ if(/personal spending|personal consumption/.test(key))return 'Dépenses de consommation des ménages';
+ if(/factory orders/.test(key))return 'Commandes à l’industrie';
+ if(/durable goods/.test(key))return 'Commandes de biens durables';
+ if(/import prices/.test(key))return 'Prix à l’importation';
+ if(/export prices/.test(key))return 'Prix à l’exportation';
+ if(/retail inventories/.test(key))return 'Stocks du commerce de détail';
+ if(/crude oil inventories|eia crude/.test(key))return 'Stocks hebdomadaires de pétrole brut';
+ if(/weekly.*oil.*inventor/.test(key))return 'Stocks hebdomadaires de pétrole brut';
+ if(/fed.*balance sheet/.test(key))return 'Bilan de la Réserve fédérale';
+ if(/treasury.*auction/.test(key))return 'Adjudication de bons du Trésor américain';
+ if(/natural gas storage/.test(key))return 'Stocks hebdomadaires de gaz naturel';
+ if(/business optimism/.test(key))return 'Optimisme des entreprises';
+ if(/nfib/.test(key))return 'Indice NFIB de confiance des petites entreprises';
+ if(/philly fed|philadelphia fed/.test(key))return 'Indice manufacturier de la Fed de Philadelphie';
+ if(/empire state/.test(key))return 'Indice manufacturier Empire State';
+ if(/richmond fed/.test(key))return 'Indice manufacturier de la Fed de Richmond';
+ if(/chicago pmi/.test(key))return 'Indice PMI de Chicago';
+ if(/consumer sentiment/.test(key))return 'Indice de confiance des consommateurs';
+ if(/housing market index/.test(key))return 'Indice du marché immobilier';
+ if(/building permits/.test(key))return 'Permis de construire';
+ if(/housing starts/.test(key))return 'Mises en chantier de logements';
+ if(/industrial production/.test(key))return 'Production industrielle';
+ if(/capacity utilization/.test(key))return 'Taux d’utilisation des capacités industrielles';
+ if(/trade balance/.test(key))return 'Balance commerciale';
+ if(/current account/.test(key))return 'Balance des paiements courants';
+ if(/wholesale inventories/.test(key))return 'Stocks des grossistes';
+ if(/business inventories/.test(key))return 'Stocks des entreprises';
+ if(/mortgage applications/.test(key))return 'Demandes hebdomadaires de prêts immobiliers';
+ if(/weekly.*jobless/.test(key))return 'Inscriptions hebdomadaires au chômage';
+ if(/speech|speaks|testimony/.test(key))return 'Discours ou audition d’un responsable de banque centrale';
+ if(/fed|federal reserve/.test(key))return 'Publication de la Réserve fédérale américaine';
+ return 'Publication économique américaine';
 }
 function renderEconomicRows(rows,emptyText){if(!rows.length)return `<div class="empty">${emptyText}</div>`;let last='';return rows.map(e=>{const day=parisDate(new Date(e.time));const heading=day!==last?`<div class="econ-day">${esc(parisDayLabel(e.time))}</div>`:'';last=day;const pills=[e.currency?`<span class="econ-pill">${esc(e.currency)}</span>`:'',e.forecast?`<span class="econ-pill forecast">Attendu <b>${esc(e.forecast)}</b></span>`:'',e.previous?`<span class="econ-pill previous">Précédent <b>${esc(e.previous)}</b></span>`:'',e.actual?`<span class="econ-pill actual">Réel <b>${esc(e.actual)}</b></span>`:'',e.status==='tentative'?'<span class="econ-pill">Horaire à confirmer</span>':e.status==='moved'?'<span class="econ-pill">Horaire modifié</span>':''].filter(Boolean).join('');return `${heading}<article class="econ-event"><time class="econ-event-time">${parisTime(e.time)}</time><div><div class="econ-event-title">${esc(frenchEconomicTitle(e.title))}</div><div class="econ-event-meta">${pills}</div></div><span class="econ-impact ${esc(e.impact)}">${econImpactLabel(e.impact)}</span></article>`}).join('')}
 async function loadEconomicCalendar(force=false){if(economicLoading)return economicLoading;if(!force&&economicEvents.length&&Date.now()-economicLastLoaded<5*60*1000){renderEconomicHome();if($('page-econ').classList.contains('active'))renderEconomicFullList();return}economicLoading=(async()=>{try{const url=ECON_API+'?impact=all&days=30';const response=await fetch(url,{headers:{'Accept':'application/json'},cache:force?'no-store':'default'});if(!response.ok)throw new Error('HTTP '+response.status);const data=await response.json();if(!Array.isArray(data.events))throw new Error('Format de réponse inattendu');economicEvents=data.events.filter(e=>e.time&&e.title).sort((a,b)=>new Date(a.time)-new Date(b.time));economicLastLoaded=Date.now();renderEconomicHome();if($('page-econ').classList.contains('active'))renderEconomicFullList()}catch(err){console.error('Calendrier économique indisponible',err);const msg='<div class="empty">Impossible de charger les annonces pour le moment. Vérifie ta connexion puis actualise.</div>';if($('economicHomeList'))$('economicHomeList').innerHTML=msg;if($('economicFullList'))$('economicFullList').innerHTML=msg}finally{economicLoading=null}})();return economicLoading}
